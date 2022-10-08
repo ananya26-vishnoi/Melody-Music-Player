@@ -1,4 +1,4 @@
-console.log("Welcome to Melody");
+
 
 // Initialize the Variables
 let songIndex = 0;
@@ -107,3 +107,38 @@ document.getElementById('previous').addEventListener('click', ()=>{
     masterPlay.classList.remove('fa-play-circle');
     masterPlay.classList.add('fa-pause-circle');
 })
+
+
+const options = {
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '5e5d12773dmshaf5f2edc29037aep1a3637jsnd781da05ea36',
+		'X-RapidAPI-Host': 'shazam.p.rapidapi.com'
+	}
+};
+
+function callApi(){
+
+    data = document.getElementById('searchbar_input').value;
+    fetch('https://shazam.p.rapidapi.com/search?term='+data+'&locale=en-US&offset=0', options)
+        .then(response => response.json())
+        .then(response => {
+            document.getElementById("songItemContainer").innerHTML = "";
+            response.tracks.hits.forEach((element, i)=>{
+                document.getElementById("songItemContainer").innerHTML += `
+                <div class="songItem">
+                    <img src="${element.track.images.coverart}" alt="">
+                    <span class="songName">${element.track.title}</span>
+                    <span class="songlistplay"><span class="timestamp">05:34 <a style="color:black;" target='_blank' href = '${element.track.hub.actions[1].uri}'><i id="0" class="fa songItemPlay fa-arrow-circle-down"></i></a> </span></span>
+                    
+                </div>
+                `;
+            console.log(element.track.hub.actions[1].uri);
+                
+            }
+            )
+
+            console.log(response)
+        })
+        .catch(err => console.error(err));
+}

@@ -10,16 +10,21 @@
 <body>
     <nav>
         <ul>
-            <li class="brand"><img src="./images/logo.png" alt="Melody"> Melody</li>
-            <li>Home</li>
-            <li>About</li>
+            <a class="link" href="#"><li class="brand"><img src="./images/logo.png" alt="Melody"> Melody</li></a>
+            <a class="link" href="#"><li>Home</li></a>
+            <a class="link" href="about.html"><li>About</li></a>
         </ul>
     </nav>
-
+    <div id="searchbar">
+        <form action="javascript:void(0)" onsubmit="callApi()">
+            <input type="text" id="searchbar_input" placeholder="Search for a song, artist or album">
+            <div id="search_image"><i class="fas fa-search"></i></button></div>
+        </form>
+    </div>
     <div class="container">
         <div class="songList">
             <h1>Best of Melody - No Copyright Sounds</h1>
-            <div class="songItemContainer">
+            <div id="songItemContainer">
                 <div class="songItem">
                     <img alt="1">
                     <span class="songName">Let me Love You</span>
