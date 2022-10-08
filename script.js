@@ -1,5 +1,4 @@
 
-
 // Initialize the Variables
 let songIndex = 0;
 let audioElement = new Audio('./songs/1.mp3');
@@ -8,6 +7,7 @@ let myProgressBar = document.getElementById('myProgressBar');
 let gif = document.getElementById('gif');
 let masterSongName = document.getElementById('masterSongName');
 let songItems = Array.from(document.getElementsByClassName('songItem'));
+
 
 let songs = [
     {songName: "Warriyo - Mortals [NCS Release]", filePath: "songs/1.mp3", coverPath: "./images/1.jpg"},
@@ -21,6 +21,19 @@ let songs = [
     {songName: "Tumhari Kasam - Salam-e-Ishq", filePath: "songs/2.mp3", coverPath: "./images/9.jpg"},
     {songName: "Na Jaana - Salam-e-Ishq", filePath: "songs/4.mp3", coverPath: "./images/10.jpg"},
 ]
+
+
+
+function playsong(sound,name){
+   
+    audioElement.src = sound;
+    audioElement.play();
+    masterSongName.innerText = name;
+    gif.style.opacity = 1;
+    masterPlay.classList.remove('fa-play-circle');
+    masterPlay.classList.add('fa-pause-circle');
+
+}
 
 songItems.forEach((element, i)=>{ 
     element.getElementsByTagName("img")[0].src = songs[i].coverPath; 
@@ -44,11 +57,7 @@ masterPlay.addEventListener('click', ()=>{
     }
 })
 // Listen to Events
-audioElement.addEventListener('timeupdate', ()=>{ 
-    // Update Seekbar
-    progress = parseInt((audioElement.currentTime/audioElement.duration)* 100); 
-    myProgressBar.value = progress;
-})
+
 
 myProgressBar.addEventListener('change', ()=>{
     audioElement.currentTime = myProgressBar.value * audioElement.duration/100;
@@ -129,11 +138,10 @@ function callApi(){
                 <div class="songItem">
                     <img src="${element.track.images.coverart}" alt="">
                     <span class="songName">${element.track.title}</span>
-                    <span class="songlistplay"><span class="timestamp">05:34 <a style="color:black;" target='_blank' href = '${element.track.hub.actions[1].uri}'><i id="0" class="fa songItemPlay fa-arrow-circle-down"></i></a> </span></span>
+                    <span class="songlistplay"><span class="timestamp">05:34 <a onclick="playsong('${element.track.hub.actions[1].uri}','${element.track.title}')" style="color:black;"><i id="0" class="far songItemPlay fa-play-circle"></i></a> </span></span>
                     
                 </div>
                 `;
-            console.log(element.track.hub.actions[1].uri);
                 
             }
             )
@@ -142,3 +150,10 @@ function callApi(){
         })
         .catch(err => console.error(err));
 }
+
+
+audioElement.addEventListener('timeupdate', ()=>{ 
+    // Update Seekbar
+    progress = parseInt((audioElement.currentTime/audioElement.duration)* 100); 
+    myProgressBar.value = progress;
+})
